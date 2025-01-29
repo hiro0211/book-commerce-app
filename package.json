@@ -12,6 +12,7 @@
     "@neondatabase/serverless": "^0.10.4",
     "@next-auth/prisma-adapter": "^1.0.7",
     "@vercel/postgres": "^0.10.0",
+    "microcms-js-sdk": "^3.1.2",
     "next": "15.1.6",
     "next-auth": "^4.24.11",
     "react": "^19.0.0",
