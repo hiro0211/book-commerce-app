@@ -17,7 +17,7 @@ const Book = ({ book }: BookProps) => {
   const user = session?.user;
   const router = useRouter();
 
-  const startCheckout = async (bookId: number) => {
+  const startCheckout = async () => {
     console.log("NEXT_PUBLIC_API_URL:", process.env.NEXT_PUBLIC_API_URL);
     console.log("NEXTAUTH_URL:", process.env.NEXTAUTH_URL);
 
@@ -60,7 +60,7 @@ const Book = ({ book }: BookProps) => {
       //ログインページにリダイレクト
       router.push("/login");
     } else {
-      startCheckout(book.id);
+      startCheckout();
     }
   };
 
