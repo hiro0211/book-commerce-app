@@ -18,10 +18,9 @@ const Book = ({ book }: BookProps) => {
   const router = useRouter();
 
   const startCheckout = async () => {
-    console.log("NEXT_PUBLIC_API_URL:", process.env.NEXT_PUBLIC_API_URL);
-    console.log("NEXTAUTH_URL:", process.env.NEXTAUTH_URL);
-
     try {
+      // console.log("NEXT_PUBLIC_API_URL:", process.env.NEXT_PUBLIC_API_URL);
+      // console.log("NEXTAUTH_URL:", process.env.NEXTAUTH_URL);
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/checkout`,
         {
