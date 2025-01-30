@@ -1,5 +1,3 @@
-"use client";
-
 import Book from "./components/Book";
 import { getAllbooks } from "./lib/microcms/client";
 import { BookType } from "./types/types";
@@ -56,7 +54,7 @@ const books = [
 
 // eslint-disable-next-line @next/next/no-async-client-component
 export default async function Home() {
-  const {contents} = await getAllbooks();
+  const { contents } = await getAllbooks();
   console.log(contents);
 
   return (
