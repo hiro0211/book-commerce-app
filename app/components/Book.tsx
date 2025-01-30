@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { BookType } from "../types/types";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 type BookProps = {
   book: BookType;
@@ -11,6 +13,38 @@ type BookProps = {
 
 const Book = ({ book }: BookProps) => {
   const [showModal, setShowModal] = useState(false);
+  const { data: session } = useSession();
+  const user = session?.user;
+  const router = useRouter();
+
+  const startCheckout = async (bookId: number) => {
+    console.log("NEXT_PUBLIC_API_URL:", process.env.NEXT_PUBLIC_API_URL);
+    console.log("NEXTAUTH_URL:", process.env.NEXTAUTH_URL);
+
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/checkout`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: book.title,
+            price: book.price,
+          }),
+        }
+      );
+
+      const responseData = await response.json();
+
+      if (responseData) {
+        router.push(responseData.checkout_url);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const handlePurchaseClick = () => {
     setShowModal(true);
@@ -18,6 +52,16 @@ const Book = ({ book }: BookProps) => {
 
   const handleCancel = () => {
     setShowModal(false);
+  };
+
+  const handlePurchaseConfirm = () => {
+    if (!user) {
+      setShowModal(false);
+      //ログインページにリダイレクト
+      router.push("/login");
+    } else {
+      startCheckout(book.id);
+    }
   };
 
   return (
@@ -60,14 +104,11 @@ const Book = ({ book }: BookProps) => {
 
         {showModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center">
-            <div
-              className="fixed inset-0 bg-slate-900 bg-opacity-50"
-              onClick={handleCancel}
-            />
+            <div className="fixed inset-0 bg-slate-900 bg-opacity-50" />
             <div className="relative z-50 bg-white p-8 rounded-lg modal">
               <h3 className="text-xl mb-4">本を購入しますか？</h3>
               <button
-                onClick={handlePurchaseClick}
+                onClick={handlePurchaseConfirm}
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4"
               >
                 購入する
