@@ -2,19 +2,20 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { BookType } from "../types/types";
+import { BookType, User } from "../types/types";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
 type BookProps = {
   book: BookType;
+  isPurchased?: boolean;
 };
 
-const Book = ({ book }: BookProps) => {
+const Book = ({ book, isPurchased }: BookProps) => {
   const [showModal, setShowModal] = useState(false);
   const { data: session } = useSession();
-  const user: any = session?.user;
+  const user = session?.user as User;
   const router = useRouter();
 
   const startCheckout = async () => {
@@ -48,7 +49,11 @@ const Book = ({ book }: BookProps) => {
   };
 
   const handlePurchaseClick = () => {
-    setShowModal(true);
+    if (isPurchased) {
+      alert("すでに購入済みです");
+    } else {
+      setShowModal(true);
+    }
   };
 
   const handleCancel = () => {
