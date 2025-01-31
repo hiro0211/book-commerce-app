@@ -60,7 +60,8 @@ export default async function Home() {
   const session = await getServerSession(nextAuthOptions);
   const user = session?.user as User;
 
-  let purchaseBookIds: string[]; // 初期化
+  // 初期化を忘れない
+  let purchaseBookIds: string[] = []; 
 
   if (user) {
     const response = await fetch(
@@ -68,9 +69,12 @@ export default async function Home() {
     );
     const purchasesData = await response.json();
 
+    console.log("purchaseDataは"  + purchasesData[0]);
+    
     purchaseBookIds = purchasesData.map(
       (purchase: Purchase) => purchase.bookId
     ); // データを代入
+    console.log("purchaseBookIdsは" + purchaseBookIds);
   }
 
   return (

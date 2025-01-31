@@ -6,6 +6,7 @@ export async function GET(
   request: Request,
   { params }: { params: { userId: string } }
 ) {
+  console.log("userIdは" + params.userId);
   const userId = params.userId;
 
   try {
@@ -20,13 +21,6 @@ export async function GET(
         userId: userId,
       },
     });
-
-    if (purchases.length === 0) {
-      return NextResponse.json(
-        { message: "No purchases found" },
-        { status: 404 }
-      );
-    }
     return NextResponse.json(purchases);
   } catch (err) {
     return NextResponse.json(err);
