@@ -18,8 +18,6 @@ export async function POST(request: Request, response: Response) {
       },
     });
 
-    console.log(session);
-
     if (!existingPurchase) {
       const purchase = await prisma.purchase.create({
         data: {
