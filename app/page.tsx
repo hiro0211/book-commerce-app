@@ -1,7 +1,7 @@
 import Book from "./components/Book";
 import { getAllbooks } from "./lib/microcms/client";
 import { nextAuthOptions } from "./lib/next-auth/options";
-import { BookType } from "./types/types";
+import { BookType, Purchase, User } from "./types/types";
 import { getServerSession } from "next-auth";
 
 // 疑似データ
@@ -58,14 +58,19 @@ const books = [
 export default async function Home() {
   const { contents } = await getAllbooks();
   const session = await getServerSession(nextAuthOptions);
-  const user: any = session?.user;
+  const user = session?.user as User;
+
+  let purchaseBookIds: string[]; // 初期化
 
   if (user) {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/purchases/${user.id}`
     );
     const purchasesData = await response.json();
-    console.log(purchasesData);
+
+    purchaseBookIds = purchasesData.map(
+      (purchase: Purchase) => purchase.bookId
+    ); // データを代入
   }
 
   return (
@@ -75,7 +80,11 @@ export default async function Home() {
           Book Commerce
         </h2>
         {contents.map((book: BookType) => (
-          <Book key={book.id} book={book} />
+          <Book
+            key={book.id}
+            book={book}
+            isPurchased={purchaseBookIds.includes(book.id)}
+          />
         ))}
       </main>
     </>
