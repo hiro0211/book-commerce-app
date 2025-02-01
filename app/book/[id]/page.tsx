@@ -20,7 +20,7 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
             className="text-gray-700 mt-2"
             dangerouslySetInnerHTML={{ __html: book.content }}
           />
-
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           <div className="flex justify-between items-center mt-2">
             <span className="text-sm text-gray-500">
               公開日:{new Date(book.publishedAt as any).toLocaleString()}

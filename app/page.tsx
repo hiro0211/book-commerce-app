@@ -5,54 +5,54 @@ import { BookType, Purchase, User } from "./types/types";
 import { getServerSession } from "next-auth";
 
 // 疑似データ
-const books = [
-  {
-    id: 1,
-    title: "Book 1",
-    thumbnail: "/thumbnails/discord-clone-udemy.png",
-    price: 2980,
-    author: {
-      id: 1,
-      name: "Author 1",
-      description: "Author 1 description",
-      profile_icon: "https://source.unsplash.com/random/2",
-    },
-    content: "Content 1",
-    created_at: new Date().toString(),
-    updated_at: new Date().toString(),
-  },
-  {
-    id: 2,
-    title: "Book 2",
-    thumbnail: "/thumbnails/notion-udemy.png",
-    price: 1980,
-    author: {
-      id: 2,
-      name: "Author 2",
-      description: "Author 2 description",
-      profile_icon: "https://source.unsplash.com/random/3",
-    },
-    content: "Content 2",
-    created_at: new Date().toString(),
-    updated_at: new Date().toString(),
-  },
-  {
-    id: 3,
-    title: "Book 3",
-    price: 4980,
-    thumbnail: "/thumbnails/openai-chatapplication-udem.png",
-    author: {
-      id: 3,
-      name: "Author 3",
-      description: "Author 3 description",
-      profile_icon: "https://source.unsplash.com/random/4",
-    },
-    content: "Content 3",
-    created_at: new Date().toString(),
-    updated_at: new Date().toString(),
-  },
-  // 他の本のデータ...
-];
+// const books = [
+//   {
+//     id: 1,
+//     title: "Book 1",
+//     thumbnail: "/thumbnails/discord-clone-udemy.png",
+//     price: 2980,
+//     author: {
+//       id: 1,
+//       name: "Author 1",
+//       description: "Author 1 description",
+//       profile_icon: "https://source.unsplash.com/random/2",
+//     },
+//     content: "Content 1",
+//     created_at: new Date().toString(),
+//     updated_at: new Date().toString(),
+//   },
+//   {
+//     id: 2,
+//     title: "Book 2",
+//     thumbnail: "/thumbnails/notion-udemy.png",
+//     price: 1980,
+//     author: {
+//       id: 2,
+//       name: "Author 2",
+//       description: "Author 2 description",
+//       profile_icon: "https://source.unsplash.com/random/3",
+//     },
+//     content: "Content 2",
+//     created_at: new Date().toString(),
+//     updated_at: new Date().toString(),
+//   },
+//   {
+//     id: 3,
+//     title: "Book 3",
+//     price: 4980,
+//     thumbnail: "/thumbnails/openai-chatapplication-udem.png",
+//     author: {
+//       id: 3,
+//       name: "Author 3",
+//       description: "Author 3 description",
+//       profile_icon: "https://source.unsplash.com/random/4",
+//     },
+//     content: "Content 3",
+//     created_at: new Date().toString(),
+//     updated_at: new Date().toString(),
+//   },
+//   // 他の本のデータ...
+// ];
 
 // eslint-disable-next-line @next/next/no-async-client-component
 export default async function Home() {
@@ -61,7 +61,7 @@ export default async function Home() {
   const user = session?.user as User;
 
   // 初期化を忘れない
-  let purchaseBookIds: string[] = []; 
+  let purchaseBookIds: string[] = [];
 
   if (user) {
     const response = await fetch(
@@ -69,8 +69,8 @@ export default async function Home() {
     );
     const purchasesData = await response.json();
 
-    console.log("purchaseDataは"  + purchasesData[0]);
-    
+    console.log("purchaseDataは" + purchasesData[0]);
+
     purchaseBookIds = purchasesData.map(
       (purchase: Purchase) => purchase.bookId
     ); // データを代入

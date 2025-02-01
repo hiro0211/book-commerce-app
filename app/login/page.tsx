@@ -22,6 +22,7 @@ function Login() {
           </h2>
         </div>
         <div className="mt-8 space-y-6">
+           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           {providers &&
             Object.values(providers).map((provider:any) => (
               <div key={provider.id} className="text-center">
