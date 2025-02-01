@@ -2,8 +2,8 @@ import { getDetailBook } from "@/app/lib/microcms/client";
 import Image from "next/image";
 import React from "react";
 
-const DetailBook = async ({ params }: { params: { id: string } }) => {
-  const book = await getDetailBook(params.id);
+const DetailBook = async ({ params }: { params: Promise<{ id: string }> }) => {
+  const book = await getDetailBook((await params).id);
   return (
     <div className="container mx-auto p-4">
       <div className="bg-white shadow-lg rounded-lg overflow-hidden">
@@ -26,7 +26,7 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
               公開日:{new Date(book.publishedAt as any).toLocaleString()}
             </span>
             <span className="text-sm text-gray-500">
-              最終更新:{new Date(book.updatedAt).toLocaleString()} 
+              最終更新:{new Date(book.updatedAt).toLocaleString()}
             </span>
           </div>
         </div>

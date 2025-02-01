@@ -1,9 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
-import { signIn, getProviders } from "next-auth/react";
+import { signIn, getProviders, ClientSafeProvider } from "next-auth/react";
 
 function Login() {
-  const [providers, setProviders] = useState(null);
+  const [providers, setProviders] = useState<Record<
+    string,
+    ClientSafeProvider
+  > | null>(null);
 
   useEffect(() => {
     const fetchProviders = async () => {
@@ -22,9 +25,8 @@ function Login() {
           </h2>
         </div>
         <div className="mt-8 space-y-6">
-           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           {providers &&
-            Object.values(providers).map((provider:any) => (
+            Object.values(providers).map((provider: any) => (
               <div key={provider.id} className="text-center">
                 <button
                   onClick={() => signIn(provider.id, { callbackUrl: "/" })}
