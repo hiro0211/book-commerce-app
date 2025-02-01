@@ -1,12 +1,12 @@
 import prisma from "@/app/lib/prisma";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 // 購入履歴の保存
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export async function POST(request: Request, response: Response) {
+export async function POST(request: NextRequest) {
   const { sessionId } = await request.json();
 
   try {
