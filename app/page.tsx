@@ -54,7 +54,6 @@ import { getServerSession } from "next-auth";
 //   // 他の本のデータ...
 // ];
 
-// eslint-disable-next-line @next/next/no-async-client-component
 export default async function Home() {
   const { contents } = await getAllbooks();
   const session = await getServerSession(nextAuthOptions);
