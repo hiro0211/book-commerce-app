@@ -5,6 +5,8 @@ import NextAuth from "next-auth/next";
 if (!process.env.NEXTAUTH_SECRET) {
   throw new Error("Missing NEXTAUTH_SECRET environment variable. Please set it in your environment.");
 }
+console.log("GITHUBの詳細は:", process.env.GITHUB_ID);
+console.log("GITHUB_SECRETの詳細は", process.env.GITHUB_SECRET);
 
 // NextAuth ハンドラーを生成
 const handler = NextAuth({
