@@ -38,8 +38,11 @@ export default async function ProfilePage() {
             priority
             src={user.image || "/default_icon.png"}
             alt="user profile_icon"
-            width={60}
-            height={60}
+            layout="responsive"
+            width={450}
+            height={350}
+            loading="lazy"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 450px"
             className="rounded-t-md"
           />
           <h2 className="text-lg ml-4 font-semibold">お名前：{user.name}</h2>
