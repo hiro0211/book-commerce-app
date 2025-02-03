@@ -63,7 +63,7 @@ const Book = ({ book, isPurchased }: BookProps) => {
     if (!user) {
       setShowModal(false);
       //ログインページにリダイレクト
-      router.push("/login");
+      router.push("/api/auth/signin");
     } else {
       startCheckout();
     }
