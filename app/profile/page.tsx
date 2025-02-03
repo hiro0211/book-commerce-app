@@ -17,13 +17,15 @@ export default async function ProfilePage() {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/purchases/${user.id}`
     );
-    const purchasesData = await response.json();
+    const purchasesData = (await response.json()) || []; // null/undefinedの防止
 
-    purchasesDetailBooks = await Promise.all(
-      purchasesData.map(async (purchase: Purchase) => {
-        return await getDetailBook(purchase.bookId); // 修正：purchase.bookIdを正しく参照
-      })
-    );
+    purchasesDetailBooks = Array.isArray(purchasesData)
+      ? await Promise.all(
+          purchasesData.map(async (purchase: Purchase) => {
+            return await getDetailBook(purchase.bookId);
+          })
+        )
+      : [];
   }
 
   return (
@@ -46,12 +48,16 @@ export default async function ProfilePage() {
 
       <span className="font-medium text-lg mb-4 mt-4 block">購入した記事</span>
       <div className="flex items-center gap-6">
-        {purchasesDetailBooks.map((purchaseDetailBook: BookType) => (
-          <PurchaseDetailBook
-            key={purchaseDetailBook.id}
-            purchaseDetailBook={purchaseDetailBook}
-          />
-        ))}
+        {purchasesDetailBooks.length > 0 ? (
+          purchasesDetailBooks.map((purchaseDetailBook: BookType) => (
+            <PurchaseDetailBook
+              key={purchaseDetailBook.id}
+              purchaseDetailBook={purchaseDetailBook}
+            />
+          ))
+        ) : (
+          <p className="text-gray-500">購入した記事はありません。</p>
+        )}
       </div>
     </div>
   );
