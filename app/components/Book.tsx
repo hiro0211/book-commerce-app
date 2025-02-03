@@ -95,11 +95,14 @@ const Book = ({ book, isPurchased, user }: BookProps) => {
         >
           <Image
             priority
-            src={book.thumbnail.url}
+            src={`${book.thumbnail.url}?w=450&h=350&fit=crop`}
             alt={book.title}
+            layout="responsive"
             width={450}
             height={350}
             className="rounded-t-md"
+            loading="lazy"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 450px"
           />
           <div className="px-4 py-4 bg-slate-100 rounded-b-md">
             <h2 className="text-lg font-semibold">{book.title}</h2>
