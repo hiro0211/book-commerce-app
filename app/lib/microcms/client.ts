@@ -11,7 +11,10 @@ export const getAllbooks = async () => {
   const allBooks = await client.getList<BookType>({
     endpoint: "bookcommerce",
     customRequestInit: {
-      cache: "no-store",
+      // ISRの再生成を60秒後に設定
+      next: {
+        revalidate: 60, 
+      }
     },
   });
 
