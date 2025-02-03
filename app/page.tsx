@@ -55,41 +55,41 @@ import { getServerSession } from "next-auth";
 // ];
 
 export default async function Home() {
-  const { contents } = await getAllbooks();
+  const { contents = [] } = await getAllbooks(); // null/undefined を防ぐ
   const session = await getServerSession(nextAuthOptions);
   const user = session?.user as User;
 
-  // 初期化を忘れない
   let purchaseBookIds: string[] = [];
 
   if (user) {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/purchases/${user.id}`
     );
-    const purchasesData = await response.json();
+    const purchasesData = (await response.json()) || []; // null/undefined の防止
 
-    console.log("purchaseDataは" + purchasesData[0]);
+    console.log("purchaseDataは", purchasesData);
 
-    purchaseBookIds = purchasesData.map(
-      (purchase: Purchase) => purchase.bookId
-    ); // データを代入
-    console.log("purchaseBookIdsは" + purchaseBookIds);
+    purchaseBookIds = Array.isArray(purchasesData)
+      ? purchasesData.map((purchase: Purchase) => purchase.bookId)
+      : []; // 安全に .map() を使う
   }
 
   return (
-    <>
-      <main className="flex flex-wrap justify-center items-center md:mt-32 mt-20">
-        <h2 className="text-center w-full font-bold text-3xl mb-2">
-          Book Commerce
-        </h2>
-        {contents.map((book: BookType) => (
+    <main className="flex flex-wrap justify-center items-center md:mt-32 mt-20">
+      <h2 className="text-center w-full font-bold text-3xl mb-2">
+        Book Commerce
+      </h2>
+      {contents.length > 0 ? (
+        contents.map((book: BookType) => (
           <Book
             key={book.id}
             book={book}
             isPurchased={purchaseBookIds.includes(book.id)}
           />
-        ))}
-      </main>
-    </>
+        ))
+      ) : (
+        <p className="text-center w-full text-gray-500">記事が見つかりません</p>
+      )}
+    </main>
   );
 }
